@@ -1,53 +1,53 @@
-import Image from "next/image";
+import { client } from "@/sanity/client";
+import Link from "next/link";
 
-export default function Home() {
+// This function gets the data from Sanity
+async function getPosts() {
+  const query = `*[_type == "post"] | order(publishedAt desc) {
+    _id,
+    title,
+    publishedAt,
+    "slug": slug.current
+  }`;
+  const data = await client.fetch(query);
+  return data;
+}
+
+export default async function Home() {
+  const posts = await getPosts();
+
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
-        <h1 className="text-4xl font-bold text-red-600">
+    <main className="min-h-screen bg-black text-white p-8 lg:p-24">
+      {/* Header */}
+      <div className="max-w-5xl mx-auto mb-16">
+        <h1 className="text-5xl font-bold text-red-600 mb-4">
           The Arsenal Analyst
         </h1>
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Coming Soon
+        <p className="text-gray-400 text-xl">
+          Data. Tactics. Hale End.
         </p>
       </div>
 
-      <div className="relative flex place-items-center">
-        <div className="text-center">
-          <h2 className="text-2xl font-semibold mb-4">Data-Driven Football Analysis</h2>
-          <p className="max-w-[600px] text-gray-500">
-            Automated insights, tactical breakdowns, and straight talk for the modern fan.
-          </p>
-        </div>
-      </div>
-
-      <div className="mb-32 grid text-center lg:max-w-5xl lg:w-full lg:mb-0 lg:grid-cols-3 lg:text-left">
-        <div className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30">
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Match Reports <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">-&gt;</span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Detailed stats and analysis after every Arsenal game.
-          </p>
-        </div>
-
-        <div className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30">
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Tactics <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">-&gt;</span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Deep dives into pressing structures and xG trends.
-          </p>
-        </div>
-
-        <div className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30">
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Academy <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">-&gt;</span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Tracking the next generation of Hale End stars.
-          </p>
-        </div>
+      {/* Blog Grid */}
+      <div className="max-w-5xl mx-auto grid gap-8 lg:grid-cols-2">
+        {posts.length > 0 ? (
+          posts.map((post: any) => (
+            <div 
+              key={post._id} 
+              className="border border-gray-800 p-6 rounded-xl hover:border-red-600 transition-colors bg-gray-900/50"
+            >
+              <p className="text-sm text-gray-500 mb-2">
+                {new Date(post.publishedAt).toDateString()}
+              </p>
+              <h2 className="text-2xl font-bold mb-2">{post.title}</h2>
+              <div className="text-red-500 font-mono text-sm mt-4">
+                Read Analysis &rarr;
+              </div>
+            </div>
+          ))
+        ) : (
+          <p className="text-gray-500">No matches analyzed yet.</p>
+        )}
       </div>
     </main>
   );
