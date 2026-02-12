@@ -1,3 +1,4 @@
+export const revalidate = 0; // Disable caching for instant updates
 import { client } from "@/sanity/client";
 import Link from "next/link";
 
