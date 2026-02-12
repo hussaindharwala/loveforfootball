@@ -13,7 +13,12 @@ const config: Config = {
           red: "#EF0107",
           dark: "#063672",
           gold: "#9C824A",
+          black: "#020405",
         },
+      },
+      fontFamily: {
+        sans: ['var(--font-inter)', 'sans-serif'],
+        mono: ['var(--font-roboto-mono)', 'monospace'],
       },
     },
   },
