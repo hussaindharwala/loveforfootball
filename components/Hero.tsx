@@ -12,8 +12,8 @@ export default function Hero({ post }: HeroProps) {
     <section className="relative w-full h-[60vh] min-h-[500px] flex items-end overflow-hidden border-b border-white/10">
       
       {/* Background Gradient (Fake Image Placeholder) */}
-      <div className="absolute inset-0 bg-gradient-to-t from-arsenal-black via-transparent to-transparent z-10" />
-      <div className="absolute inset-0 bg-gradient-to-r from-arsenal-black via-arsenal-black/50 to-transparent z-10" />
+      <div className="absolute inset-0 bg-gradient-to-t from-arsenal-dark via-transparent to-transparent z-10" />
+      <div className="absolute inset-0 bg-gradient-to-r from-arsenal-dark via-arsenal-dark/50 to-transparent z-10" />
       
       {/* Placeholder Image (We will make this dynamic later) */}
       <div className="absolute inset-0 bg-zinc-800 z-0">
